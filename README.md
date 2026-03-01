@@ -13,131 +13,45 @@ Aplicação **Fullstack** para gerenciamento de recursos educacionais, com **aux
 - SQLAlchemy
 - SQLite
 - Gemini API (`google-genai`)
-- flake8 (CI) ainda não implementado
+- Flake8 (CI)
 
 ### Frontend
 - React
 - Vite
 - TailwindCSS
 - JavaScript
+- ESLint (CI)
 
 ---
 
-## 🚀 Como rodar o projeto do zero (ambiente local)
-
-Estas instruções permitem rodar **backend e frontend localmente**, sem Docker até o momento.
-
----
 
 ## 📋 Pré-requisitos
 
 Certifique-se de ter instalado:
 
 - **Python 3.10+**
-- **Node.js 18+** (ou 20+)
-- **npm**
+- **Node.js 18+**
 - **Git**
 
 ---
 
-## 📁 Clonando o repositório
+## Como rodar o projeto do zero (ambiente local)
 
-```bash
-git clone https://github.com/jose-fernando-1/SmartHub.git
-cd SmartHub
-```
+Estas instruções permitem rodar **backend e frontend localmente**, sem Docker até o momento.
 
 ---
 
-## ⚙️ Backend (FastAPI)
+Passo a passo completo de setup local em:
 
-Arquivos de referência:
-- [backend/requirements.txt](backend/requirements.txt)
-- [backend/.env.example](backend/.env.example)
-- [backend/app/main.py](backend/app/main.py)
-
-### 1) Entrar na pasta do backend
-```bash
-cd backend
-```
-
-### 2) Criar e ativar ambiente virtual
-
-**Linux/macOS**
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-**Windows (PowerShell)**
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-```
-### 3) Instalar dependências
-```bash
-pip install -r requirements.txt
-```
-
-### 4) Configurar variáveis de ambiente
-Copie o exemplo e ajuste se necessário:
-```bash
-cp .env.example .env
-```
-
-Exemplo de `.env`:
-```env
-GEMINI_API_KEY=
-USE_MOCK_AI=true
-CORS_ORIGINS=http://localhost:5173
-SQLITE_PATH=./data/app.db
-```
-
-> Se `USE_MOCK_AI=true`, o backend responde com sugestões mockadas e não chama a API Gemini.
-
-### 5) Subir o servidor
-```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Backend disponível em:
-- API: `http://localhost:8000`
-- Docs Swagger: `http://localhost:8000/docs`
-- Docs Redoc: `http://localhost:8000/redoc`
-- Healthcheck: `http://localhost:8000/health`
+- [Guia de setup local](docs/setup_local.md)
 
 ---
 
-## 💻 Frontend (React + Vite)
+## 📚 Documentação modular
 
-### 1) Em outro terminal, entrar na pasta frontend
-```bash
-cd frontend
-```
+Documentação complementar do projeto (separada por assunto):
 
-### 2) Instalar dependências
-```bash
-npm install
-```
-
-### 3) Rodar em modo desenvolvimento
-```bash
-npm run dev
-```
-
-Frontend disponível em:
-- `http://localhost:5173`
-
----
-
-## 🔌 Integração Front + Back
-
-O backend já está com CORS habilitado via [backend/app/main.py](backend/app/main.py), lendo `CORS_ORIGINS` de [backend/app/core/config.py](backend/app/core/config.py).
-
-Valor padrão(restrito somente a esse):
-- `http://localhost:5173`
-
-Se rodar frontend em outra porta, ajuste `CORS_ORIGINS` no `.env`.
+- [Notas técnicas do projeto](docs/notes.md)
 
 ---
 
