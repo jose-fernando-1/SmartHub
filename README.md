@@ -107,11 +107,3 @@ python scripts/check_db.py --db ./data/app.db
 Flags disponíveis:
 - `--limit`: define quantos registros mais recentes mostrar.
 - `--db`: informa manualmente o caminho do arquivo SQLite (sobrescreve `.env`).
-
-## 📌 Estrutura resumida
-
-- Backend API: [backend/app/main.py](backend/app/main.py)
-- Configurações: [backend/app/core/config.py](backend/app/core/config.py)
-- Serviço de IA: [backend/app/services/ai_gemini.py](backend/app/services/ai_gemini.py)
-- Frontend entrypoint: [frontend/src/main.jsx](frontend/src/main.jsx)
-- Frontend app: [frontend/src/App.jsx](frontend/src/App.jsx)

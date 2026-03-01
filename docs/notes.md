@@ -18,6 +18,7 @@
 - Em `ai.py`, define modelos de entrada e saída da rota de IA (`AIRequest`/`AIResponse`) e os valida com `Field`.
 - Em `ai_gemini.py`, são aplicadas constraints ao modelo `AISuggestion`, e ele é usado tanto para enviar o prompt para o Gemini quanto para forçar o Gemini a retornar dados no formato do schema JSON gerado por ele.
 - Via schemas, em `resource.py`, os modelos de recurso centralizam validações de cadastro e edição de recursos.
+- Logs são validados antes de serem salvos no banco de dados.
 
 ## CI/CD
 
