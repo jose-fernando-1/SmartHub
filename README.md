@@ -33,15 +33,21 @@ Certifique-se de ter instalado:
 - **Node.js 18+**
 - **Git**
 
+Para executar no modo dockerizado, também são necessários:
+
+- **Docker Engine 24+**
+- **Docker Compose v2** (plugin `docker compose`)
+
 
 
 ## Como rodar o projeto do zero (ambiente local)
 
-Estas instruções permitem rodar **backend e frontend localmente**, sem Docker até o momento.
+Estas instruções permitem rodar **backend e frontend localmente**.
 
 Passo a passo completo de setup local em:
 
 - [Guia de setup local](docs/setup_local.md)
+- [Guia de setup local dockerizado](docs/setup_local_docker.md)
 
 
 ## 📚 Documentação modular

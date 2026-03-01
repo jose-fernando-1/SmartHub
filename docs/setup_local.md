@@ -69,7 +69,10 @@ Backend disponível em:
 ```bash
 cd frontend
 ```
-
+### 2) Criar .env do frontend
+```bash
+cp .env.example .env
+```
 ### 2) Instalar dependências
 ```bash
 npm install
