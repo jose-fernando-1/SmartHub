@@ -1,13 +1,28 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func
 
 from app.db.session import get_db
 from app.models.resource import Resource
+from app.models.resource_audit_log import ResourceAuditLog
 from app.schemas.resource import (
     ResourceCreate, ResourceUpdate, ResourceOut,
     tags_to_str, tags_from_str
 )
+
+log = logging.getLogger(__name__)
+
+
+def _save_audit_log(db: Session, action: str, resource_id: int | None, details: str) -> None:
+    db.add(
+        ResourceAuditLog(
+            action=action,
+            resource_id=resource_id,
+            details=details,
+        )
+    )
 
 # Rota de resources começa com /resources
 router = APIRouter(prefix="/resources", tags=["resources"])
@@ -59,6 +74,11 @@ def create_resource(payload: ResourceCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(r)
 
+    details = f"Recurso cadastrado: title='{r.title}', type='{r.type}', url='{r.url}'"
+    _save_audit_log(db, action="create", resource_id=r.id, details=details)
+    db.commit()
+    log.info("resource.create id=%s title=%s", r.id, r.title)
+
     return ResourceOut(
         id=r.id,
         title=r.title,
@@ -91,20 +111,33 @@ def update_resource(resource_id: int, payload: ResourceUpdate, db: Session = Dep
     if not r:
         raise HTTPException(status_code=404, detail="Resource not found")
 
+    changed_fields: list[str] = []
+
     if payload.title is not None:
         r.title = payload.title
+        changed_fields.append("title")
     if payload.description is not None:
         r.description = payload.description
+        changed_fields.append("description")
     if payload.type is not None:
         r.type = payload.type
+        changed_fields.append("type")
     if payload.url is not None:
         r.url = payload.url
+        changed_fields.append("url")
     if payload.tags is not None:
         r.tags = tags_to_str(payload.tags)
+        changed_fields.append("tags")
 
     db.add(r)
     db.commit()
     db.refresh(r)
+
+    fields_text = ",".join(changed_fields) if changed_fields else "none"
+    details = f"Recurso atualizado: id={r.id}, fields={fields_text}"
+    _save_audit_log(db, action="update", resource_id=r.id, details=details)
+    db.commit()
+    log.info("resource.update id=%s fields=%s", r.id, fields_text)
 
     return ResourceOut(
         id=r.id,
@@ -122,6 +155,14 @@ def delete_resource(resource_id: int, db: Session = Depends(get_db)):
     if not r:
         raise HTTPException(status_code=404, detail="Resource not found")
 
+    deleted_title = r.title
+
     db.delete(r)
     db.commit()
+
+    details = f"Recurso removido: id={resource_id}, title='{deleted_title}'"
+    _save_audit_log(db, action="delete", resource_id=resource_id, details=details)
+    db.commit()
+    log.info("resource.delete id=%s title=%s", resource_id, deleted_title)
+
     return None
