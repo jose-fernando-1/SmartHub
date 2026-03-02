@@ -12,8 +12,9 @@ from app.models.ai_interaction_log import AIInteractionLog
 log = logging.getLogger(__name__)
 
 SYSTEM_INSTRUCTIONS = (
-    "Você é um Assistente Pedagógico. Gere uma descrição baseada no título e no tipo do conteúdo fornecido que seja curta e autoexplicativa para alunos, "
-    "e recomende exatamente 3 tags relevantes ao conteúdo."
+    "Você é um Assistente Pedagógico. Gere uma descrição baseada no título e "
+    "no tipo do conteúdo fornecido que seja curta e autoexplicativa para "
+    "alunos, e recomende exatamente 3 tags relevantes ao conteúdo."
 )
 
 
@@ -71,7 +72,10 @@ def _persist_ai_log(
         db.commit()
     except Exception:
         db.rollback()
-        log.exception('Failed to persist AI interaction log. title="%s"', title)
+        log.exception(
+            'Failed to persist AI interaction log. title="%s"',
+            title,
+        )
 
 
 def generate_suggestion(
@@ -99,7 +103,12 @@ def generate_suggestion(
             total_tokens_used=None,
             error_message=None,
         )
-        log.info('AI Request: Title="%s", Latency=%.3fs, Mock=%s', title, latency_ms / 1000, True)
+        log.info(
+            'AI Request: Title="%s", Latency=%.3fs, Mock=%s',
+            title,
+            latency_ms / 1000,
+            True,
+        )
         return out
 
     client = genai.Client(api_key=settings.gemini_api_key)
@@ -107,7 +116,10 @@ def generate_suggestion(
 
     input_tokens_estimation = None
     try:
-        token_count = client.models.count_tokens(model=model_name, contents=contents)
+        token_count = client.models.count_tokens(
+            model=model_name,
+            contents=contents,
+        )
         input_tokens_estimation = getattr(token_count, "total_tokens", None)
     except Exception:
         log.warning('AI count_tokens failed. title="%s"', title)
@@ -155,7 +167,11 @@ def generate_suggestion(
         validated = AISuggestion.model_validate_json(text)
         data = validated.model_dump()
     except (ValidationError, ValueError):
-        log.warning('AI returned invalid structured response. latency=%.3fs text="%s"', latency, text[:200])
+        log.warning(
+            'AI returned invalid structured response. latency=%.3fs text="%s"',
+            latency,
+            text[:200],
+        )
         data = _mock_response(title, rtype)
         status = "fallback"
 
@@ -184,7 +200,9 @@ def generate_suggestion(
     )
 
     log.info(
-        'AI Request: Title="%s", Latency=%.3fs, Mock=%s, InputTokensEstimation=%s, InputTokensAccounted=%s, OutputTokens=%s, TotalTokensUsed=%s',
+        'AI Request: Title="%s", Latency=%.3fs, Mock=%s, '
+        'InputTokensEstimation=%s, InputTokensAccounted=%s, '
+        'OutputTokens=%s, TotalTokensUsed=%s',
         title,
         latency,
         settings.use_mock_ai,

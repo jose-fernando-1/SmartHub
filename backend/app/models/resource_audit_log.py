@@ -11,7 +11,11 @@ class ResourceAuditLog(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     action: Mapped[str] = mapped_column(String(20), nullable=False, index=True)
-    resource_id: Mapped[int | None] = mapped_column(Integer, nullable=True, index=True)
+    resource_id: Mapped[int | None] = mapped_column(
+        Integer,
+        nullable=True,
+        index=True,
+    )
     details: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
