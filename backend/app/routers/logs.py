@@ -33,7 +33,12 @@ def list_resource_logs(
     total = db.scalar(total_stmt) or 0
     offset = (page - 1) * page_size
 
-    items_stmt = select(ResourceAuditLog).order_by(ResourceAuditLog.id.desc()).offset(offset).limit(page_size)
+    items_stmt = (
+        select(ResourceAuditLog)
+        .order_by(ResourceAuditLog.id.desc())
+        .offset(offset)
+        .limit(page_size)
+    )
     if filters:
         items_stmt = items_stmt.where(*filters)
 
@@ -77,7 +82,12 @@ def list_ai_logs(
     total = db.scalar(total_stmt) or 0
     offset = (page - 1) * page_size
 
-    items_stmt = select(AIInteractionLog).order_by(AIInteractionLog.id.desc()).offset(offset).limit(page_size)
+    items_stmt = (
+        select(AIInteractionLog)
+        .order_by(AIInteractionLog.id.desc())
+        .offset(offset)
+        .limit(page_size)
+    )
     if filters:
         items_stmt = items_stmt.where(*filters)
 
