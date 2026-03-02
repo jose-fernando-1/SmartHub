@@ -9,6 +9,7 @@ from app.db.base import Base
 from app.routers.health import router as health_router
 from app.routers.resources import router as resources_router
 from app.routers.ai import router as ai_router
+from app.routers.logs import router as logs_router
 
 setup_logging()
 
@@ -27,3 +28,4 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(resources_router)
 app.include_router(ai_router)
+app.include_router(logs_router)
