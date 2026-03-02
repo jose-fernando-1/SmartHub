@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Backend (Python/pip)
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    groups:
+      backend-security:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
+
+  # Frontend (Node/npm)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    groups:
+      frontend-security:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
