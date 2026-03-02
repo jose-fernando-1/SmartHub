@@ -77,3 +77,5 @@ Rotas implementadas em:
 ---
 
 ## Direções Futuras
+- Upload de arquivos (vídeo e pdf)
+- Instância MongoDB para armazenar logs separadamente
