@@ -96,3 +96,5 @@ Allow origins padrão (restrito somente a esse):
 - `http://localhost:5173`
 
 Se rodar frontend em outra porta, ajuste `CORS_ORIGINS` no `.env`.
+
+## [Comandos Úteis](/docs/commands.md)

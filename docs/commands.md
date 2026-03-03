@@ -33,17 +33,44 @@ docker compose exec backend python scripts/check_db.py --table resources --limit
 docker compose exec frontend npm run lint
 ```
 
-### Backend
+### Execução local (sem Docker)
+
+> Use terminais separados para backend e frontend.
+
+#### Backend (FastAPI)
 ```bash
+cd backend
+
+# criar e ativar ambiente virtual
+python -m venv .venv
+source .venv/bin/activate
+
+# instalar dependências
+pip install -r requirements.txt
+
+# iniciar API local
 uvicorn app.main:app --reload
 ```
 
-### Frontend
+#### Frontend (Vite)
 ```bash
+cd frontend
+
+# instalar dependências
+npm install
+
+# iniciar app local
 npm run dev
-npm run build
-npm run preview
-npm run lint
+```
+
+#### Qualidade e build (local)
+```bash
+# frontend
+cd frontend && npm run lint
+cd frontend && npm run build
+
+# backend (com venv ativo)
+cd backend && python scripts/check_db.py --table resources --limit 10
 ```
 
 ---
