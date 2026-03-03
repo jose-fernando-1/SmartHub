@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { request } from '../api/request'
 
 export function useResources({ setError, setMessage, clearFeedback }) {
@@ -9,10 +9,7 @@ export function useResources({ setError, setMessage, clearFeedback }) {
   const [pageSize, setPageSize] = useState(5)
   const [total, setTotal] = useState(0)
 
-  const totalPages = useMemo(() => {
-    if (!total || !pageSize) return 1
-    return Math.max(1, Math.ceil(total / pageSize))
-  }, [total, pageSize])
+  const totalPages = !total || !pageSize ? 1 : Math.max(1, Math.ceil(total / pageSize))
 
   const loadResources = useCallback(async () => {
     setIsLoadingResources(true)
@@ -33,8 +30,7 @@ export function useResources({ setError, setMessage, clearFeedback }) {
     loadResources()
   }, [loadResources])
 
-  const handleDelete = useCallback(
-    async (resourceId) => {
+  const handleDelete = async (resourceId) => {
       clearFeedback()
 
       if (!window.confirm('Deseja realmente remover este recurso?')) {
@@ -56,22 +52,20 @@ export function useResources({ setError, setMessage, clearFeedback }) {
       } catch (err) {
         setError(err.message)
       }
-    },
-    [clearFeedback, total, pageSize, page, loadResources, setMessage, setError],
-  )
+    }
 
-  const handlePageSizeChange = useCallback((event) => {
+  const handlePageSizeChange = (event) => {
     setPageSize(Number(event.target.value))
     setPage(1)
-  }, [])
+  }
 
-  const handlePreviousPage = useCallback(() => {
+  const handlePreviousPage = () => {
     setPage((previous) => Math.max(1, previous - 1))
-  }, [])
+  }
 
-  const handleNextPage = useCallback(() => {
+  const handleNextPage = () => {
     setPage((previous) => Math.min(totalPages, previous + 1))
-  }, [totalPages])
+  }
 
   return {
     resources,

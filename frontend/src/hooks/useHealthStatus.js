@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { request } from '../api/request'
 import { formatHealthCheckedAgo } from '../utils/health'
 
@@ -8,9 +8,7 @@ export function useHealthStatus({ setError }) {
   const [lastHealthCheckAt, setLastHealthCheckAt] = useState(null)
   const [now, setNow] = useState(() => Date.now())
 
-  const healthCheckedAgo = useMemo(() => {
-    return formatHealthCheckedAgo(lastHealthCheckAt, now)
-  }, [lastHealthCheckAt, now])
+  const healthCheckedAgo = formatHealthCheckedAgo(lastHealthCheckAt, now)
 
   const checkHealth = useCallback(async () => {
     setIsCheckingHealth(true)

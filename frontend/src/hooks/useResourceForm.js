@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { request } from '../api/request'
 import { initialForm, toTagsArray } from '../utils/tags'
 
@@ -11,17 +11,17 @@ export function useResourceForm({ loadResources, setMessage, setError, clearFeed
   const [searchId, setSearchId] = useState('')
   const [isSearching, setIsSearching] = useState(false)
 
-  const handleChange = useCallback((event) => {
+  const handleChange = (event) => {
     const { name, value } = event.target
     setForm((previous) => ({ ...previous, [name]: value }))
-  }, [])
+  }
 
-  const resetForm = useCallback(() => {
+  const resetForm = () => {
     setForm(initialForm)
     setEditingId(null)
-  }, [])
+  }
 
-  const populateForm = useCallback((resource) => {
+  const populateForm = (resource) => {
     setForm({
       title: resource.title ?? '',
       description: resource.description ?? '',
@@ -30,10 +30,9 @@ export function useResourceForm({ loadResources, setMessage, setError, clearFeed
       tags: (resource.tags ?? []).join(', '),
     })
     setEditingId(resource.id)
-  }, [])
+  }
 
-  const handleSubmit = useCallback(
-    async (event) => {
+  const handleSubmit = async (event) => {
       event.preventDefault()
       clearFeedback()
 
@@ -73,11 +72,9 @@ export function useResourceForm({ loadResources, setMessage, setError, clearFeed
       } finally {
         setIsSaving(false)
       }
-    },
-    [clearFeedback, form, editingId, setError, setMessage, resetForm, loadResources],
-  )
+    }
 
-  const handleGenerateAI = useCallback(async () => {
+  const handleGenerateAI = async () => {
     clearFeedback()
 
     const title = form.title.trim()
@@ -116,9 +113,9 @@ export function useResourceForm({ loadResources, setMessage, setError, clearFeed
       window.clearTimeout(timeoutId)
       setIsGeneratingAI(false)
     }
-  }, [clearFeedback, form.title, form.type, setError, setMessage])
+  }
 
-  const handleSearchById = useCallback(async () => {
+  const handleSearchById = async () => {
     clearFeedback()
 
     const id = Number(searchId)
@@ -137,11 +134,11 @@ export function useResourceForm({ loadResources, setMessage, setError, clearFeed
     } finally {
       setIsSearching(false)
     }
-  }, [clearFeedback, searchId, setError, populateForm, setMessage])
+  }
 
-  const handleSearchIdChange = useCallback((event) => {
+  const handleSearchIdChange = (event) => {
     setSearchId(event.target.value)
-  }, [])
+  }
 
   return {
     form,

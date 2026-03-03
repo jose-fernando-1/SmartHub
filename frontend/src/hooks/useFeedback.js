@@ -1,13 +1,13 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 
 export function useFeedback() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
-  const clearFeedback = useCallback(() => {
+  const clearFeedback = () => {
     setMessage('')
     setError('')
-  }, [])
+  }
 
   return {
     message,
