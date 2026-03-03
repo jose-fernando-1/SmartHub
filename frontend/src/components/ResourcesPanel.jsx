@@ -3,8 +3,6 @@ function ResourcesPanel({
   pageSize,
   totalPages,
   total,
-  message,
-  error,
   isLoadingResources,
   resources,
   onPageSizeChange,
@@ -33,9 +31,6 @@ function ResourcesPanel({
           </select>
         </div>
       </div>
-
-      {message && <p className="mb-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">{message}</p>}
-      {error && <p className="mb-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>}
 
       {isLoadingResources ? (
         <p className="text-sm text-gray-600">Carregando recursos...</p>

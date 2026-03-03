@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { request } from '../api/request'
 
-export function useResources({ setError, setMessage, clearFeedback }) {
+export function useResources({ setError, setMessage, clearFeedback, askConfirmation }) {
   const [resources, setResources] = useState([])
   const [isLoadingResources, setIsLoadingResources] = useState(false)
 
@@ -33,7 +33,8 @@ export function useResources({ setError, setMessage, clearFeedback }) {
   const handleDelete = async (resourceId) => {
       clearFeedback()
 
-      if (!window.confirm('Deseja realmente remover este recurso?')) {
+      const confirmed = await askConfirmation('Deseja realmente remover este recurso?')
+      if (!confirmed) {
         return
       }
 

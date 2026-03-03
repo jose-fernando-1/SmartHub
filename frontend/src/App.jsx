@@ -1,4 +1,5 @@
 import AppHeader from './components/AppHeader'
+import FeedbackToasts from './components/FeedbackToasts'
 import ResourceFormPanel from './components/ResourceFormPanel'
 import ResourcesPanel from './components/ResourcesPanel'
 import { useFeedback } from './hooks/useFeedback'
@@ -7,7 +8,18 @@ import { useResourceForm } from './hooks/useResourceForm'
 import { useResources } from './hooks/useResources'
 
 function App() {
-  const { message, error, setMessage, setError, clearFeedback } = useFeedback()
+  const {
+    message,
+    error,
+    confirmationMessage,
+    setMessage,
+    setError,
+    clearFeedback,
+    clearMessage,
+    clearError,
+    askConfirmation,
+    handleConfirmation,
+  } = useFeedback()
 
   const { healthStatus, isCheckingHealth, healthCheckedAgo, checkHealth } = useHealthStatus({ setError })
 
@@ -23,7 +35,7 @@ function App() {
     handlePageSizeChange,
     handlePreviousPage,
     handleNextPage,
-  } = useResources({ setError, setMessage, clearFeedback })
+  } = useResources({ setError, setMessage, clearFeedback, askConfirmation })
 
   const {
     form,
@@ -72,8 +84,6 @@ function App() {
             pageSize={pageSize}
             totalPages={totalPages}
             total={total}
-            message={message}
-            error={error}
             isLoadingResources={isLoadingResources}
             resources={resources}
             onPageSizeChange={handlePageSizeChange}
@@ -84,6 +94,16 @@ function App() {
           />
         </section>
       </div>
+
+      <FeedbackToasts
+        message={message}
+        error={error}
+        confirmationMessage={confirmationMessage}
+        onCloseMessage={clearMessage}
+        onCloseError={clearError}
+        onConfirm={() => handleConfirmation(true)}
+        onCancel={() => handleConfirmation(false)}
+      />
     </main>
   )
 }
