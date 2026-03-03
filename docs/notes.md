@@ -2,8 +2,9 @@
 
 ## Geral
 
-- Segui boas práticas de desenvolvimento e desenvolvi na branch `development` para no final dar merge na `main` e resolver possíveis conflitos.
-- As variáveis de ambiente estão sendo extraídas de arquivos `.env`, seja para preservar o sigilo ou para facilitar alterar configurações.
+- Segui boas práticas de desenvolvimento e desenvolvi numa branch de `development` para no final dar merge na `main` e resolver possíveis conflitos.
+- Apliquei regras de proteção de branch, implementei verificações de dependências e de segurança periódicas (semanais) por meio do dependabot, com verificação de pull request manual para alterações geradas pelo agente de IA do Github.
+- As variáveis de ambiente estão sendo extraídas de arquivos `.env`, seja para preservar o sigilo ou para facilitar alterar configurações. Arquivos sensíveis ou desnecessários publicar estão explícitos no .gitignore.
 - Os logs são estruturados e são armazenados no banco de dados para possibilitar análise. Existem logs para registrar as interações com a API do Gemini e para registrar operações com recursos (criar/editar/remover).
 
 ## API de IA
