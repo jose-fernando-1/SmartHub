@@ -102,23 +102,4 @@ Abrir no navegador:
 
 ---
 
-## 🛠️ Comandos úteis
-
-Parar e remover os containers:
-
-```bash
-docker compose down
-```
-
-Parar e remover containers + rede + volumes:
-
-```bash
-docker compose down -v
-```
-
-Rebuild completo após mudanças de dependência:
-
-```bash
-docker compose up --build -d
-```
-
+## [Comandos úteis Docker](/docs/commands.md)
